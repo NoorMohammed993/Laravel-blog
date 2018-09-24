@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Category;
 use App\Post;
+use App\Tag;
 use Session;
 
 class PostController extends Controller
@@ -30,6 +31,7 @@ class PostController extends Controller
     {    
         
         $categories=Category::all();
+        $tags=Tag::all();
         
         if( $categories->count() == 0)
         {
@@ -40,7 +42,7 @@ class PostController extends Controller
         }
         
         
-        return view('admin.posts.create')->with("categories",Category::all());
+        return view('admin.posts.create')->with("categories",Category::all())->with('tags',$tags);
     }
 
     /**
@@ -53,34 +55,7 @@ class PostController extends Controller
     {
         //dd($request->all());
         
-        $this->validate($request,[
-            
-           'title'       => 'required',
-           'featured'    => 'required|image',
-           'content'     => 'required',
-           'category_id' =>'required'
-            
-        ]);
-        
-        $featured= $request->featured;
-        
-        $featured_new_name=time().$featured->getClientOriginalName();
-        
-        $featured->move('uploads/posts',$featured_new_name);
-        
-        $post=Post::create([
-            
-          'title'       => $request->title,
-          'content'     => $request->content,
-          'featured'    => 'uploads/posts/'.$featured_new_name,
-          'category_id' => $request->category_id,
-          'slug'        =>str_slug($request->title)
-    
-        ]);
-        
-        Session::flash('success','you Successfully created post');
-        
-        return redirect()->route('post.index');
+       
     }
 
     /**
@@ -104,9 +79,11 @@ class PostController extends Controller
     {
         $post=Post::find($id);
         
+        $tags=Tag::all();
+        
         $categories=Category::all();
         
-        return view('admin.posts.edit',compact('post','categories'));
+        return view('admin.posts.edit',compact('post','categories','tags'));
     }
 
     /**
@@ -142,11 +119,15 @@ class PostController extends Controller
         
         
         
-        $post->title=$request->title; 
+        $post->title=$request->title;
+        
         $post->content=$request->content;
+        
         $post->category_id=$request->category_id;
         
         $post->save();
+        
+        $post->tags()->sync($request->tags);
         
         Session::flash('success','you Successfully updated post');
         

@@ -1,15 +1,9 @@
-@extends('layouts.app') 
-
-
-@section('content') 
-
-
-
-@include('admin.includes.errors')
+@extends('layouts.app') @section('content') @include('admin.includes.errors')
 
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Create new post</h4></div>
+    <div class="panel-heading">
+        <h4>Create new post</h4></div>
 
     <div class="panel-body">
         <form method="post" action="{{route('post.store')}}" enctype="multipart/form-data">
@@ -47,6 +41,18 @@
 
                 </select>
             </div>
+
+            <div class="form-group">
+
+                <label for="tags">Select Tags: @foreach($tags as $tag)
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" class="form-check-input" name="tags[]" value="{{ $tag->id}}"> {{ $tag->tag}}</label>
+                    </div>
+                    @endforeach
+                </label>
+            </div>
+
 
             <div class="form-group">
                 <div class="text-center">

@@ -1,11 +1,4 @@
-@extends('layouts.app') 
-
-
-@section('content') 
-
-
-
-@include('admin.includes.errors')
+@extends('layouts.app') @section('content') @include('admin.includes.errors')
 
 
 <div class="panel panel-default">
@@ -29,7 +22,7 @@
             <div class="form-group">
                 <label for="content">Content</label>
                 <textarea type="text" class="form-control" name="content" id="content" rows="5" cols="5">
-                    {{  $post->content }}
+                    {{ $post->content }}
                 </textarea>
             </div>
 
@@ -43,11 +36,37 @@
                     @foreach($categories as $category)
 
 
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+
+                    <option value="{{ $category->id }}" {{ $category->id == $post->category_id ? 'selected="selected"' : '' }}> {{ $category->name }}</option>
+
+
 
                     @endforeach
 
                 </select>
+
+             
+            <div class="form-group">
+
+                <label for="tags">Select Tags: @foreach($tags as $tag)
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" class="form-check-input" name="tags[]" value="{{ $tag->id}}"  
+                                @foreach($post->tags as $t ) 
+                            
+                                   @if($tag->id == $t->id)
+                            
+                                   checked
+                                   @endif
+                            
+                                   @endforeach
+                                   
+                                   >{{ $tag->tag}}</label>
+                    </div>
+                    @endforeach
+                </label>
+            </div>
+
             </div>
 
             <div class="form-group">

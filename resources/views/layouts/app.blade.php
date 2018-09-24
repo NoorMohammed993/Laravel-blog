@@ -108,6 +108,23 @@
 
                         </li>
                         
+                        <li class="list-group-item">
+
+                            <a href="{{route('tag.index')}}">All tags</a>
+
+                        </li>
+                        
+                         <li class="list-group-item">
+
+                            <a href="{{route('user.index')}}">All Users</a>
+
+                        </li>
+                        
+                         <li class="list-group-item">
+
+                            <a href="{{route('user.create')}}">Create new User</a>
+
+                        </li>
                         
                          <li class="list-group-item">
 
@@ -118,6 +135,12 @@
                         <li class="list-group-item">
 
                             <a href="{{route('post.create')}}">Create new post</a>
+
+                        </li>
+                        
+                        <li class="list-group-item">
+
+                            <a href="{{route('tag.create')}}">Create new tags</a>
 
                         </li>
                         
